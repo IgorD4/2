@@ -8,6 +8,7 @@ public class MouseMove2D : MonoBehaviour
     [SerializeField] public Text timeLeft;
     [SerializeField] public GameObject obj;
     [SerializeField] public GameObject endPanel;
+    [SerializeField] public GameObject wind;
     private Vector3 mousePosition;
     public float moveSpeed = 0.1f;
     private bool check = false;
@@ -35,6 +36,14 @@ public class MouseMove2D : MonoBehaviour
     {
         for (int i = 60; i >= 0 ; i--)
         {
+            if (i == 45)
+            {
+                wind.GetComponent<Collider2D>().enabled = true;
+            }
+            else
+            {
+                wind.GetComponent<Collider2D>().enabled = false;
+            }
             timeLeft.text = (i).ToString();
             yield return new WaitForSeconds(1);
             if(i == 0)
@@ -65,6 +74,10 @@ public class MouseMove2D : MonoBehaviour
             endPanel.SetActive(true);
             obj.GetComponent<Collider2D>().enabled = false;
             Time.timeScale = 0;
+        }
+        if (other.gameObject.tag == "GameController")
+        {
+            obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         }
     }
 }
